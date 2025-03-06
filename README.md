@@ -1,13 +1,35 @@
 # Universal_Encrypter
 
-As we know the data is the most valuable thing on the planet, and protecting it is a complex task as hackers and unauthorised person always wants to exploit them.
+### **Description:**  
+This Python program provides a secure encryption and decryption system for any file type. It uses **AES-256 encryption** with **PBKDF2 key derivation** to ensure high security. The program features a **graphical user interface (GUI)** using **Tkinter**, where users can select a file, enter a password, and encrypt or decrypt it. A **progress bar animation** is included to indicate encryption and decryption progress.  
 
-For security reasons, we need to convert the original data into an unknown format to make the data unreadable , making it difficult to intercept.
+---
 
-This python program will cover this need and encrypt any file into an encrypted unreadable file using a key which is provided by the user (this program is focused for a single user therefore here a single key is used for both encryption and decryption {symmetric key encryption} )
+### **Algorithm:**  
 
-Again when the same key is provided, the encrypted file gets decrypted in its original format.
+#### **Encryption Process:**  
+1. Select a file using the GUI file browser.  
+2. Enter a password for encryption.  
+3. Generate a **random salt (16 bytes)** for key derivation.  
+4. Derive a **256-bit AES key** using PBKDF2-HMAC-SHA256.  
+5. Generate a **random IV (Initialization Vector, 16 bytes)** for AES-CBC mode.  
+6. Read the file's content and apply **PKCS7 padding** to align with AES block size.  
+7. Encrypt the padded content using AES-256 in CBC mode.  
+8. Store the **salt, IV, encrypted data, and original file extension** in a JSON file with a `.enc` extension.  
+9. Display a success message and clear the password field.  
 
-if a wrong password is provided, it still shows as decryption done successfully and also create an file with the same extention as the original file but lack in content which is made with the intention to misguide the hacker.
+---
 
-you can differentiate the original and the encrypted file by looking at the extention, for encrypted file there is an extention .enc .
+#### **Decryption Process:**  
+1. Select the encrypted `.enc` file using the GUI.  
+2. Enter the correct password used for encryption.  
+3. Extract the **salt, IV, and encrypted content** from the `.enc` file.  
+4. Derive the **AES key** using the salt and password.  
+5. Decrypt the content using AES-256 in CBC mode.  
+6. Remove PKCS7 padding from the decrypted content.  
+7. Restore the original file with its **correct extension**.  
+8. Display a success message or an error message if the password is incorrect.  
+
+---
+
+This program ensures **strong security** with **randomized salts, IVs, and secure key derivation**, making it difficult to crack even with brute force.
