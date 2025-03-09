@@ -16,24 +16,29 @@ const displayFileDecrypt = (event) => {
 
 const closeError = () => {
   const errorDiv = document.getElementById("error");
-  errorDiv.style.visibility = "hidden";
+  errorDiv.classList.remove("show");
 };
 
-const getFile = () => {
-  const pass = document.getElementById("password");
+const showError = (messageText) => {
+  const message = document.getElementById("message");
+  message.innerHTML = messageText;
+  const errorDiv = document.getElementById("error");
+  errorDiv.classList.add("show");
+};
+
+const getFile = (type) => {
+  let pass = document.getElementById("passwordD");
+  if (type == "Encrypt") {
+    pass = document.getElementById("passwordE");
+  }
   const password = pass.value;
   if (password === "") {
-    const error = document.getElementById("message");
-    error.innerHTML = "Please enter a password";
-    const errorDiv = document.getElementById("error");
-    errorDiv.style.visibility = "visible";
+    showError("Please enter a password");
     return;
   }
   if (fileType === null) {
-    const error = document.getElementById("message");
-    error.innerHTML = "Please upload a file";
-    const errorDiv = document.getElementById("error");
-    errorDiv.style.visibility = "visible";
+    showError("Please upload a file");
+    return;
   } else if (fileType === "encrypt") {
     const file = document.getElementById("encrypt").files[0];
     const formData = new FormData();
@@ -46,7 +51,6 @@ const getFile = () => {
     })
       .then((res) => res.blob())
       .then((data) => {
-        console.log(data);
         const downloadFile = document.createElement("a");
         const fileURL = URL.createObjectURL(data);
         downloadFile.href = fileURL;
@@ -56,10 +60,14 @@ const getFile = () => {
         URL.revokeObjectURL(fileURL);
       })
       .catch((err) => {
+        showError("Error encrypting file");
         console.error(err);
       })
       .finally(() => {
-        window.location.reload();
+        pass.value = "";
+        document.getElementById("filenameE").innerHTML = "No file selected";
+        document.getElementById("encrypt").value = "";
+        fileType = null;
       });
   } else if (fileType === "decrypt") {
     const file = document.getElementById("decrypt").files[0];
@@ -80,11 +88,14 @@ const getFile = () => {
         downloadFile.click();
       })
       .catch((err) => {
+        showError("Error decrypting file");
         console.error(err);
       })
       .finally(() => {
-        window.location.reload();
+        pass.value = "";
+        document.getElementById("filenameD").innerHTML = "No file selected";
+        document.getElementById("decrypt").value = "";
+        fileType = null;
       });
   }
-  
 };

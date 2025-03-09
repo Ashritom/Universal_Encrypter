@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Encryption & Decryption</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
 </head>
 <body>
     <header>
@@ -14,7 +15,7 @@
     <div class="container">
       <div class="card">
         <div class="card-head">
-          <h2></h2>
+          <center><h2>Encrypt</h2></center>
         </div>
         <div class="upload-file">
           <label for="encrypt" class="custom-file-label">
@@ -28,6 +29,20 @@
             class="file-input"
             id="encrypt"
           />
+          <input
+            type="password"
+            id="passwordE"
+            placeholder="Enter password"
+            class="password"
+          />
+          <button onclick="getFile('Encrypt')" class="btn">Encrypt</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <center><h2>Decrypt</h2></center>
+        </div>
+        <div class="upload-file">
           <label for="decrypt" class="custom-file-label">
             Choose a file to decrypt
           </label>
@@ -41,20 +56,24 @@
           />
           <input
             type="password"
-            id="password"
+            id="passwordD"
             placeholder="Enter password"
             class="password"
           />
-          <button onclick="getFile()" class="btn">Upload</button>
+          <button onclick="getFile('Decrypt')" class="btn">Decrypt</button>
         </div>
-        <div class="error" id="error">
+      <div class="error" id="error">
           <div class="card">
-            <p id="message"></p>
+            <center><p id="message"></p></center>
             <button onclick="closeError()" id="btn" class="btn">Retry</button>
           </div>
         </div>
-      </div>
     </div>
+    <!-- <div class="footer">
+      <a href="https://github.com/Ashritom">Ashrit</a>
+      <a href="https://github.com/Manoj-Kandula">Manoj</a>
+      <a href="https://github.com/Nandan328">Nandan</a>
+    </div> -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

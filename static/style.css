@@ -1,11 +1,26 @@
 :root {
-  --primary-color: #8e44ad;
-  --secondary-color: #8716a0;
+  --primary-color: #f952ff;
+  --secondary-color: #c21de7;
   --text-color: #2c3e50;
   --subtitle-color: #7f8c8d;
+  --body-color: #222222;
+  --card--color: #5b286b;
+  --text: #fff;
+  --password-color: #dfb8e6;
   --border-radius: 0.6rem;
   --box-shadow: 0 4px 6px 0 rgba(142, 68, 173, 0.3);
-  --transition: all 0.4s ease;
+  --transition: all 0.3s ease;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+@keyframes load {
+  0% {
+    transform: translateY(6rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 * {
@@ -15,16 +30,23 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: rgb(218, 217, 217);
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Oswald", sans-serif;
+  background-color: var(--body-color);
   color: var(--text-color);
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-  max-width: 30rem;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 header {
@@ -43,11 +65,13 @@ header h1 {
 }
 
 .card {
-  background-color: rgb(237, 237, 237);
+  width: 25rem;
+  background-color: var(--card--color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  padding: 25px;
-  margin-bottom: 30px;
+  padding: 2rem;
+  margin: 0 3rem;
+  animation: load .7s linear;
 }
 
 .card-head h2 {
@@ -62,8 +86,8 @@ header h1 {
 
 .custom-file-label {
   background-color: var(--primary-color);
-  color: #fff;
-  padding: 12px 15px;
+  color: var(--text);
+  padding: .7rem .9rem;
   border-radius: var(--border-radius);
   cursor: pointer;
   transition: var(--transition);
@@ -71,8 +95,9 @@ header h1 {
   margin-bottom: .5rem;
 }
 
-.custom-file-label:hover {
+.custom-file-label:hover, .btn:hover {
   background-color: var(--secondary-color);
+  transform: translateY(-2px);
 }
 
 .file-input {
@@ -80,25 +105,33 @@ header h1 {
 }
 
 .password {
+  background-color: var(--password-color);
   margin-bottom: 1rem;
   padding: 0.5rem;
   border-radius: var(--border-radius);
-  border: 1px solid var(--primary-color);
-}
-
-p{
-    margin-bottom: .5rem;
+  border: none;
 }
 
 .password:focus {
   outline: none;
-  border: 1px solid var(--primary-color);
+}
+
+p{
+  margin-bottom: .5rem;
+}
+
+.filename{
+  color: var(--subtitle-color);
+}
+
+.card-head h2{
+ color: var(--primary-color);
 }
 
 .btn {
   width: 100%;
   background-color: var(--primary-color);
-  color: #fff;
+  color: var(--text);
   padding: 12px;
   border: none;
   border-radius: var(--border-radius);
@@ -106,7 +139,6 @@ p{
   transition: var(--transition);
   font-size: 1rem;
 }
-
 
 .error {
   position: fixed;
@@ -119,5 +151,57 @@ p{
   align-items: center;
   justify-content: center;
   z-index: 999;
+  opacity: 0;
   visibility: hidden;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.error.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#message {
+  color: #fff;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  margin: 1rem 0;
+  animation: load 1s linear;
+}
+.footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: .5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  .card {
+    width: 90%;
+    margin: 1rem 0;
+  }
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .subtitle {
+    font-size: .9rem;
+  }
+  .custom-file-label,
+  .btn {
+    padding: 10px;
+    font-size: 0.7rem;
+  }
+  .filename{
+    font-size: 0.7rem;
+  }
 }
