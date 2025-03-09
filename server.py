@@ -101,21 +101,25 @@ def decrypt_file(encrypted_path, password):
 def encrypt():
     if 'file' not in request.files or 'password' not in request.form:
         return jsonify({"error": "File and password are required"}), 400
-    
+
     file = request.files['file']
     password = request.form['password']
-    
+
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
-    
+
     file_path = os.path.join('uploads', file.filename)
     file.save(file_path)
-    
+
     encrypted_path = encrypt_file(file_path, password)
-    
+
     # Generate a URL for downloading the encrypted file
     encrypted_file_url = f'/uploads/{os.path.basename(encrypted_path)}'
-    
+
+    print(f"Encrypted file URL: {encrypted_file_url}")
+
+    return send_file(encrypted_path, as_attachment=True)
+
     return jsonify({
         "message": "File encrypted successfully",
         "encrypted_file_path": encrypted_file_url
