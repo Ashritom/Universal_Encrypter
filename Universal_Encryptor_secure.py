@@ -129,11 +129,21 @@ def encrypt():
 
     encrypted_path = encrypt_file(file_path, password)
 
+<<<<<<< HEAD:Universal_Encryptor_secure.py
     if "Error" in encrypted_path:
         return jsonify({"error": encrypted_path}), 400
 
     encrypted_file_url = f'/uploads/{os.path.basename(encrypted_path)}'
 
+=======
+    # Generate a URL for downloading the encrypted file
+    encrypted_file_url = f'/uploads/{os.path.basename(encrypted_path)}'
+
+    print(f"Encrypted file URL: {encrypted_file_url}")
+
+    return send_file(encrypted_path, as_attachment=True)
+
+>>>>>>> 15a6432cc96cdb22f5e4e3471dfd573879738748:server.py
     return jsonify({
         "message": "File encrypted successfully",
         "encrypted_file_path": encrypted_file_url
