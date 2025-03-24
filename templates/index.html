@@ -5,75 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Encryption & Decryption</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
 </head>
 <body>
-    <header>
-      <h1>Encrypt and Decrypt Your Files</h1>
-      <p class="subtitle">Upload, encrypt, and decrypt your files securely</p>
-    </header>
     <div class="container">
-      <div class="card">
-        <div class="card-head">
-          <center><h2>Encrypt</h2></center>
+        <h1>Secure File Encryption and Decryption</h1>
+        <!-- File Upload & Password Input -->
+        <div class="form-group">
+            <label for="file">Select File:</label>
+            <input type="file" id="file" name="file" required>
         </div>
-        <div class="upload-file">
-          <label for="encrypt" class="custom-file-label">
-            Choose a file to encrypt
-          </label>
-          <p class="filename" id="filenameE">No file selected</p>
-          <input
-            onchange="displayFileEncrypt(event)"
-            type="file"
-            name="encryptFile"
-            class="file-input"
-            id="encrypt"
-          />
-          <input
-            type="password"
-            id="passwordE"
-            placeholder="Enter password"
-            class="password"
-          />
-          <button onclick="getFile('Encrypt')" class="btn">Encrypt</button>
+        <div class="form-group">
+            <label for="password">Enter Password:</label>
+            <input type="password" id="password" name="password" required>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <center><h2>Decrypt</h2></center>
+        <!-- Buttons for Encryption & Decryption -->
+        <div class="button-group">
+            <button id="encrypt-btn" class="btn">Encrypt</button>
+            <button id="decrypt-btn" class="btn">Decrypt</button>
         </div>
-        <div class="upload-file">
-          <label for="decrypt" class="custom-file-label">
-            Choose a file to decrypt
-          </label>
-          <p class="filename" id="filenameD">No file selected</p>
-          <input
-            onchange="displayFileDecrypt(event)"
-            type="file"
-            name="decryptFile"
-            class="file-input"
-            id="decrypt"
-          />
-          <input
-            type="password"
-            id="passwordD"
-            placeholder="Enter password"
-            class="password"
-          />
-          <button onclick="getFile('Decrypt')" class="btn">Decrypt</button>
+        <!-- Progress Bar -->
+        <div id="progress-container">
+            <div id="progress-bar"></div>
         </div>
-      <div class="error" id="error">
-          <div class="card">
-            <center><p id="message"></p></center>
-            <button onclick="closeError()" id="btn" class="btn">Retry</button>
-          </div>
-        </div>
+        <!-- Result -->
+        <div id="result"></div>
     </div>
-    <!-- <div class="footer">
-      <a href="https://github.com/Ashritom">Ashrit</a>
-      <a href="https://github.com/Manoj-Kandula">Manoj</a>
-      <a href="https://github.com/Nandan328">Nandan</a>
-    </div> -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
