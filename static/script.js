@@ -1,79 +1,66 @@
-document.getElementById('encrypt-btn').addEventListener('click', function() {
-    handleFileAction('encrypt');
-});
-
-document.getElementById('decrypt-btn').addEventListener('click', function() {
-    handleFileAction('decrypt');
-});
-
-
-
-function handleFileAction(action) {
+document.addEventListener('DOMContentLoaded', function() {
+    const encryptBtn = document.getElementById('encrypt-btn');
+    const decryptBtn = document.getElementById('decrypt-btn');
+    const resultDiv = document.getElementById('result');
     const fileInput = document.getElementById('file');
     const passwordInput = document.getElementById('password');
-    const file = fileInput.files[0];
-    const ext = file.name.split('.')[1];
-    const password = passwordInput.value;
 
-    if (!file || !password) {
-        alert("Please select a file and enter a password.");
-        return;
-    }
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('password', password);
+    encryptBtn.addEventListener('click', function() {
+        const file = fileInput.files[0];
+        const password = passwordInput.value;
 
-    // Show progress bar
-    document.getElementById('progress-container').style.display = 'block';
-
-    fetch(`/${action}`, {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.blob();
+        if (!file || !password) {
+            resultDiv.innerHTML = 'Please select a file and enter a password.';
+            return;
         }
-        throw new Error('File not found');
-    })  // Parse the JSON response
-    .then(data => {
-        console.log(data);
-        const url = window.URL.createObjectURL(data);
-        const a = document.createElement('a');
-        a.style.display = null;
-        a.href = url;
-        if (action == "encrypt"){
-            a.download = `encrypted.${ext}.enc`;
-        }
-        else{
-            a.download = `decrypted.${ext}`;
-        }
-        a.click();
 
-        // Display message (success or error)
-        // document.getElementById('result').textContent = data.message || data.error;
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('password', password);
 
-        // // Handle the download link creation
-        // if (data.encrypted_file_path) {
-        //     const encryptedFileLink = document.createElement('a');
-        //     encryptedFileLink.href = data.encrypted_file_path;  // Should be a URL like '/uploads/file.enc'
-        //     encryptedFileLink.download = data.encrypted_file_path.split('/').pop();  // Extract filename
-        //     encryptedFileLink.textContent = "Download the encrypted file";
-        //     document.getElementById('result').appendChild(encryptedFileLink);
-        // } else if (data.decrypted_file_path) {
-        //     const decryptedFileLink = document.createElement('a');
-        //     decryptedFileLink.href = data.decrypted_file_path;  // Should be a URL like '/uploads/file'
-        //     decryptedFileLink.download = data.decrypted_file_path.split('/').pop();  // Extract filename
-        //     decryptedFileLink.textContent = "Download the decrypted file";
-        //     document.getElementById('result').appendChild(decryptedFileLink);
-        // }
-    })
-    .catch(error => {
-        console.error(error);
-        document.getElementById('result').textContent = "An error occurred. Please try again.";
-    })
-    .finally(() => {
-        // Hide progress bar
-        document.getElementById('progress-container').style.display = 'none';
+        fetch('/encrypt', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                resultDiv.innerHTML = `Error: ${data.error}`;
+            } else {
+                resultDiv.innerHTML = `File encrypted successfully! Download it from <a href="${data.encrypted_file_path}" target="_blank">${data.encrypted_file_path}</a>`;
+            }
+        })
+        .catch(error => {
+            resultDiv.innerHTML = `Error: ${error.message}`;
+        });
     });
-}
+
+    decryptBtn.addEventListener('click', function() {
+        const file = fileInput.files[0];
+        const password = passwordInput.value;
+
+        if (!file || !password) {
+            resultDiv.innerHTML = 'Please select a file and enter a password.';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('password', password);
+
+        fetch('/decrypt', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = file.name.replace(".enc", ""); // To suggest the original name for download
+            link.click();
+        })
+        .catch(error => {
+            resultDiv.innerHTML = `Error: ${error.message}`;
+        });
+    });
+});
