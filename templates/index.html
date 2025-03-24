@@ -1,35 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>File Encryption & Decryption</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container">
-        <h1>Secure File Encryption and Decryption</h1>
-        <!-- File Upload & Password Input -->
+      <div class="app-header">
+        <h1>Secure File Vault</h1>
+        <p class="tagline">
+          Encrypt and decrypt your files with military-grade security
+        </p>
+      </div>
+
+      <div class="mode-selector">
+        <span class="mode-label encrypt-label active">Encrypt</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="mode-toggle" />
+          <span class="slider"></span>
+        </label>
+        <span class="mode-label decrypt-label">Decrypt</span>
+      </div>
+
+      <div class="card">
+        <div class="form-group file-upload-zone">
+          <label for="file"
+            ><i class="icon-file"></i>Select File to
+            <span id="action-text">Encrypt</span></label
+          >
+          <input type="file" id="file" name="file" required />
+          <div class="file-info" id="file-info">No file selected</div>
+        </div>
+
         <div class="form-group">
-            <label for="file">Select File:</label>
-            <input type="file" id="file" name="file" required>
+          <label for="password">Security Password</label>
+          <div class="password-container">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your secure password"
+              required
+            />
+            <button
+              type="button"
+              id="toggle-password"
+              class="toggle-password-btn"
+            >
+              👁️
+            </button>
+          </div>
+          <div id="password-strength">
+            <div id="password-strength-meter"></div>
+          </div>
+          <div id="password-requirements">
+            Password must be at least 8 characters with uppercase, lowercase,
+            number, and special character.
+          </div>
         </div>
-        <div class="form-group">
-            <label for="password">Enter Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <!-- Buttons for Encryption & Decryption -->
-        <div class="button-group">
-            <button id="encrypt-btn" class="btn">Encrypt</button>
-            <button id="decrypt-btn" class="btn">Decrypt</button>
-        </div>
-        <!-- Progress Bar -->
+
+        <button id="action-btn" class="action-btn encrypt-action">
+          Encrypt File
+        </button>
+
         <div id="progress-container">
-            <div id="progress-bar"></div>
+          <div id="progress-bar"></div>
         </div>
-        <!-- Result -->
-        <div id="result"></div>
+      </div>
+
+      <div class="result-card" id="result"></div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
+  </body>
 </html>
