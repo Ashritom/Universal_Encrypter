@@ -1,207 +1,400 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --primary-color: #f952ff;
   --secondary-color: #c21de7;
-  --text-color: #2c3e50;
-  --subtitle-color: #7f8c8d;
-  --body-color: #222222;
-  --card--color: #5b286b;
-  --text: #fff;
-  --password-color: #dfb8e6;
+  --text-color: #ffffff;
+  --subtitle-color: #8a8b8b;
+  --body-color: #000000;
+  --card-color: #2d2d2d;
+  --password-color: #ffffff;
+  --success-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --encrypt-color: #f952ff;
+  --decrypt-color: #c21de7;
   --border-radius: 0.6rem;
-  --box-shadow: 0 4px 6px 0 rgba(142, 68, 173, 0.3);
+  --box-shadow: 0 10px 20px rgba(142, 68, 173, 0.3);
   --transition: all 0.3s ease;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-
-@keyframes load {
+@keyframes head-load {
   0% {
-    transform: translateY(6rem);
+    transform: translateX(100%);
+    opacity: 0;
   }
   100% {
-    transform: translateY(0);
+    transform: translateX(0);
+    opacity: 1;
   }
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@keyframes card-load {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 body {
-  width: 100%;
-  min-height: 100vh;
-  font-family: "Oswald", sans-serif;
-  background-color: var(--body-color);
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
   color: var(--text-color);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background: var(--body-color);
+  min-height: 100vh;
+  padding: 40px 20px;
 }
 
 .container {
+  max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  justify-content: space-evenly;
 }
 
-header {
+.app-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  animation: head-load 1s linear;
 }
 
-header h1 {
+h1 {
+  font-weight: 700;
   color: var(--primary-color);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 2.5rem;
 }
 
-.subtitle {
+.tagline {
   color: var(--subtitle-color);
+  font-weight: 300;
   font-size: 1.1rem;
 }
 
 .card {
-  width: 25rem;
-  background-color: var(--card--color);
+  background-color: var(--card-color);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  padding: 2rem;
-  margin: 0 3rem;
-  animation: load .7s linear;
-}
-
-.card-head h2 {
-  color: var(--secondary-color);
-  margin-bottom: 15px;
-}
-
-.upload-file {
-  display: flex;
-  flex-direction: column;
-}
-
-.custom-file-label {
-  background-color: var(--primary-color);
-  color: var(--text);
-  padding: .7rem .9rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
+  padding: 30px;
+  margin-bottom: 25px;
   transition: var(--transition);
-  text-align: center;
-  margin-bottom: .5rem;
+  animation: card-load 1s linear;
 }
 
-.custom-file-label:hover, .btn:hover {
-  background-color: var(--secondary-color);
-  transform: translateY(-2px);
-}
-
-.file-input {
-  display: none;
-}
-
-.password {
-  background-color: var(--password-color);
-  margin-bottom: 1rem;
-  padding: 0.5rem;
+.result-card {
+  background-color: var(--card-color);
   border-radius: var(--border-radius);
-  border: none;
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  min-height: 60px;
+  transition: var(--transition);
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-.password:focus {
-  outline: none;
+.result-card.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-p{
-  margin-bottom: .5rem;
+.mode-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+  animation: head-load 1s linear;
 }
 
-.filename{
+.mode-label {
+  font-weight: 600;
+  padding: 0 15px;
+  cursor: pointer;
+  color: var(--subtitle-color);
+  transition: var(--transition);
+}
+
+.mode-label.active {
+  color: var(--text-color);
+}
+
+.encrypt-label.active {
+  color: var(--encrypt-color);
+}
+
+.decrypt-label.active {
+  color: var(--decrypt-color);
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--encrypt-color);
+  transition: var(--transition);
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: var(--transition);
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--decrypt-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.file-upload-zone {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  text-align: center;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
+}
+
+.file-upload-zone:hover {
+  border-color: var(--primary-color);
+}
+
+.file-upload-zone label {
+  cursor: pointer;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.file-upload-zone input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-info {
+  margin-top: 15px;
+  font-size: 0.9rem;
   color: var(--subtitle-color);
 }
 
-.card-head h2{
- color: var(--primary-color);
+.icon-file {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 2rem;
 }
 
-.btn {
+.icon-file:before {
+  content: "📄";
+}
+
+.password-container {
+  position: relative;
+}
+
+input[type="password"],
+input[type="text"] {
   width: 100%;
-  background-color: var(--primary-color);
-  color: var(--text);
-  padding: 12px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--password-color);
+}
+
+input[type="password"]:focus,
+input[type="text"]:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(249, 82, 255, 0.25);
+}
+
+input[type="password"]::placeholder,
+input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
   border: none;
-  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--subtitle-color);
+}
+
+#password-strength {
+  height: 6px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-top: 10px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#password-strength-meter {
+  height: 100%;
+  width: 0%;
+  border-radius: 3px;
+  transition: var(--transition);
+}
+
+#password-requirements {
+  font-size: 0.85rem;
+  margin-top: 10px;
+  color: var(--subtitle-color);
+}
+
+.action-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: var(--transition);
-  font-size: 1rem;
+  color: white;
+}
+
+.encrypt-action {
+  background: linear-gradient(
+    135deg,
+    var(--encrypt-color) 0%,
+    var(--secondary-color) 100%
+  );
+}
+
+.decrypt-action {
+  background: linear-gradient(
+    135deg,
+    var(--decrypt-color) 0%,
+    var(--secondary-color) 70%
+  );
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(249, 82, 255, 0.3);
+  filter: brightness(1.1);
+}
+
+#progress-container {
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin-top: 20px;
+  overflow: hidden;
+  display: none;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.encrypt-progress {
+  background: linear-gradient(
+    90deg,
+    var(--encrypt-color) 0%,
+    var(--secondary-color) 100%
+  );
+}
+
+.decrypt-progress {
+  background: linear-gradient(
+    90deg,
+    var(--decrypt-color) 0%,
+    var(--secondary-color) 100%
+  );
 }
 
 .error {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.415);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease-in-out;
+  color: var(--danger-color);
+  font-weight: 500;
+  padding: 15px;
+  border-left: 4px solid var(--danger-color);
+  background-color: rgba(231, 76, 60, 0.15);
+  border-radius: 4px;
 }
 
-.error.show {
-  opacity: 1;
-  visibility: visible;
+.success {
+  color: var(--success-color);
+  font-weight: 500;
+  padding: 15px;
+  border-left: 4px solid var(--success-color);
+  background-color: rgba(46, 204, 113, 0.15);
+  border-radius: 4px;
 }
 
-#message {
-  color: #fff;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  margin: 1rem 0;
-  animation: load 1s linear;
-}
-.footer a {
-  color: var(--primary-color);
+.download-link {
   text-decoration: none;
-  padding: .5rem;
 }
 
-@media only screen and (max-width: 600px) {
+@media (max-width: 768px) {
   .container {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
+    padding: 0 15px;
   }
+
   .card {
-    width: 90%;
-    margin: 1rem 0;
+    padding: 20px;
   }
-  header h1 {
-    font-size: 1.5rem;
+
+  h1 {
+    font-size: 2rem;
   }
-  .subtitle {
-    font-size: .9rem;
-  }
-  .custom-file-label,
-  .btn {
-    padding: 10px;
-    font-size: 0.7rem;
-  }
-  .filename{
-    font-size: 0.7rem;
+
+  .file-upload-zone {
+    padding: 20px;
   }
 }
