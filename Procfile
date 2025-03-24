@@ -1,1 +1,1 @@
-web: gunicorn server:app
+web: gunicorn Universal_Encryptor_secure:app
