@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateModeUI(mode) {
     currentMode = mode;
 
+    fileInput.value = "";
+    fileInfo.textContent = "No file selected";
+
     if (mode === "encrypt") {
       encryptLabel.classList.add("active");
       decryptLabel.classList.remove("active");
@@ -46,10 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const fileName = this.files[0].name;
       const fileSize = (this.files[0].size / 1024).toFixed(2);
       fileInfo.textContent = `${fileName} (${fileSize} KB)`;
-      fileInfo.style.color = "#333";
+      fileInfo.style.color = "#8a8b8b";
     } else {
       fileInfo.textContent = "No file selected";
-      fileInfo.style.color = "#6c757d";
+      fileInfo.style.color = "#8a8b8b";
     }
   });
 
