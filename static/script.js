@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateModeUI(mode) {
     currentMode = mode;
-    fileInput.value = "";
-    fileInfo.textContent = "No file selected";
+
     if (mode === "encrypt") {
       encryptLabel.classList.add("active");
       decryptLabel.classList.remove("active");
@@ -47,10 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const fileName = this.files[0].name;
       const fileSize = (this.files[0].size / 1024).toFixed(2);
       fileInfo.textContent = `${fileName} (${fileSize} KB)`;
-      fileInfo.style.color = "#8a8b8b";
+      fileInfo.style.color = "#333";
     } else {
       fileInfo.textContent = "No file selected";
-      fileInfo.style.color = "#8a8b8b";
+      fileInfo.style.color = "#6c757d";
     }
   });
 
@@ -163,8 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response) => response.json())
         .then((data) => {
           completeProgress(progressInterval);
-          passwordInput.value = "";
-          passwordStrengthMeter.style.width = "0%";
           if (data.error) {
             showResult(`<div class="error">Error: ${data.error}</div>`, true);
           } else {
@@ -190,8 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         .then((response) => {
           completeProgress(progressInterval);
-          passwordInput.value = "";
-          passwordStrengthMeter.style.width = "0%";
           if (
             !response.ok &&
             response.headers.get("content-type")?.includes("application/json")
